@@ -51,7 +51,13 @@ describe "Javacript Sets", ->
   it 'allows the conversion to an array', ->
     l = ["a", "b", "c", "d"]
     s = new Set(l)
-    arr = s.items().sort()
+    arr = s.items()
+    expect(arr).toContain(i) for i in l
+
+  it 'allows the conversion to an array, even if numeric', ->
+    l = [1,2,3,4]
+    s = new Set(l)
+    arr = s.items()
     expect(arr).toContain(i) for i in l
     
   it 'allows the creation of union of two sets', ->

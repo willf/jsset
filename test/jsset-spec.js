@@ -59,7 +59,19 @@
       var arr, i, l, s, _i, _len, _results;
       l = ["a", "b", "c", "d"];
       s = new Set(l);
-      arr = s.items().sort();
+      arr = s.items();
+      _results = [];
+      for (_i = 0, _len = l.length; _i < _len; _i++) {
+        i = l[_i];
+        _results.push(expect(arr).toContain(i));
+      }
+      return _results;
+    });
+    it('allows the conversion to an array, even if numeric', function() {
+      var arr, i, l, s, _i, _len, _results;
+      l = [1, 2, 3, 4];
+      s = new Set(l);
+      arr = s.items();
       _results = [];
       for (_i = 0, _len = l.length; _i < _len; _i++) {
         i = l[_i];

@@ -1,10 +1,10 @@
 this.Set = class Set
   constructor: (items=[]) ->
     @store= {}
-    @store[item] = true for item in items
+    @store[item] = item for item in items
   
   add: (object) -> 
-    @store[object] = true
+    @store[object] = object
     
   contains: (object) ->
     @store[object] || false
@@ -13,7 +13,7 @@ this.Set = class Set
     delete(@store[object])
     
   items: () ->
-    Object.keys(@store)
+    @store[key] for key in Object.keys(@store)
 
   size: () -> this.items().length
       
