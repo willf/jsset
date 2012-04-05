@@ -136,4 +136,139 @@
     });
   });
 
+  describe("Javacript Sets, using string keys", function() {
+    it('allows the creation of union of two sets', function() {
+      var expected, item, p, s1, s2, _i, _len, _results;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      expected = ["1", "2", "3", "4", "5", "6", "7"];
+      p = union(s1, s2);
+      _results = [];
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        _results.push(expect(p).toContain(item));
+      }
+      return _results;
+    });
+    it('allows the creation of union of two sets, one of which is empty', function() {
+      var expected, item, p, s1, s2, _i, _len, _results;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = [];
+      expected = ["1", "2", "3", "4", "5"];
+      p = union(s1, s2);
+      _results = [];
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        _results.push(expect(p).toContain(item));
+      }
+      return _results;
+    });
+    it('allows the creation of union of two sets, both of which is empty', function() {
+      var p, s1, s2;
+      s1 = [];
+      s2 = [];
+      p = union(s1, s2);
+      return expect(p.length).toBe(0);
+    });
+    it('allows the creation of the intersection of two sets', function() {
+      var expected, item, p, s1, s2, unexpected, _i, _j, _len, _len1, _results;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      expected = ["3", "4", "5"];
+      unexpected = ["1", "2", "6", "7"];
+      p = intersection(s1, s2);
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        expect(p).toContain(item);
+      }
+      _results = [];
+      for (_j = 0, _len1 = unexpected.length; _j < _len1; _j++) {
+        item = unexpected[_j];
+        _results.push(expect(p).toNotContain(item));
+      }
+      return _results;
+    });
+    it('allows the creation of the difference of two sets', function() {
+      var expected, item, p, s1, s2, unexpected, _i, _j, _len, _len1, _results;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      expected = ["1", "2"];
+      unexpected = ["3", "4", "5", "6", "7"];
+      p = difference(s1, s2);
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        expect(p).toContain(item);
+      }
+      _results = [];
+      for (_j = 0, _len1 = unexpected.length; _j < _len1; _j++) {
+        item = unexpected[_j];
+        _results.push(expect(p).toNotContain(item));
+      }
+      return _results;
+    });
+    it('returns the empty set if intesecting with an empty set', function() {
+      var expected, item, p, s1, s2, unexpected, _i, _len;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = [];
+      expected = [];
+      p = intersection(s1, s2);
+      unexpected = s1;
+      for (_i = 0, _len = unexpected.length; _i < _len; _i++) {
+        item = unexpected[_i];
+        expect(p).toNotContain(item);
+      }
+      return expect(p.length).toBe(0);
+    });
+    it('returns the empty set if both sets are empty', function() {
+      var expected, p, s1, s2;
+      s1 = [];
+      s2 = [];
+      expected = [];
+      p = intersection(s1, s2);
+      return expect(p.length).toBe(0);
+    });
+    it('returns a (cheaper) arity for union', function() {
+      var s1, s2;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      return expect(union_arity(s1, s2)).toBe(7);
+    });
+    it('returns a (cheaper) arity for intersection', function() {
+      var s1, s2;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      return expect(intersection_arity(s1, s2)).toBe(3);
+    });
+    it('returns a (cheaper) arity for difference', function() {
+      var s1, s2;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      return expect(difference_arity(s1, s2)).toBe(2);
+    });
+    it('returns a jaccard index score', function() {
+      var s1, s2;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      return expect(jaccardIndex(s1, s2)).toBe(3 / 7);
+    });
+    it('returns a jaccard distance score', function() {
+      var s1, s2;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      return expect(jaccardDistance(s1, s2)).toBe(1 - (3 / 7));
+    });
+    it('returns a hamming distance', function() {
+      var s1, s2;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      return expect(hammingDistance(s1, s2)).toBe(4);
+    });
+    return it('returns a normalized hamming distance (with a reference size)', function() {
+      var s1, s2;
+      s1 = ["1", "2", "3", "4", "5"];
+      s2 = ["3", "4", "5", "6", "7"];
+      return expect(normalizedHammingDistance(s1, s2, 1000)).toBe(4 / 1000);
+    });
+  });
+
 }).call(this);
