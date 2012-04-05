@@ -1,83 +1,55 @@
-this.Set = class Set
-  constructor: (items=[]) ->
-    @store= {}
-    @store[item] = item for item in items
+this.intersection = (a, b) ->
+  r = []
+  h = new Object
+  h[item]=true for item in a
+  r.push(item) for item in b when h[item]
+  r
   
-  add: (object) -> 
-    @store[object] = object
-    
-  contains: (object) ->
-    @store[object] || false
-    
-  delete: (object) ->
-    delete(@store[object])
-    
-  items: () ->
-    @store[key] for key in Object.keys(@store)
+this.union = (a,b)  ->
+  r = []
+  h = new Object
+  h[item]=true for item in a
+  r.push(item) for item in a 
+  r.push(item) for item in b when !h[item]
+  r
 
-  size: () -> this.items().length
-      
-  equals: (other) ->
-    s = @store
-    eq = true
-    for item in this.items()
-      do (item) ->
-        eq = false unless other.store[item]
-    return eq unless eq
-    loc = this
-    for item in other.items()
-      do (item) ->
-        eq = false unless loc.store[item]
-    return eq
+this.difference = (a, b) ->
+  r = []
+  h = new Object
+  h[item]=true for item in b
+  r.push(item) for item in a when !h[item]
+  r
 
-  union: (other) ->
-    new Set(other.items().concat(this.items()))
-    
-  intersection: (other) ->
-    ks = []
-    for item in this.items()
-      do (item) ->
-        ks[ks.length] = item if other.contains(item)
-    new Set(ks)
-    
-  difference: (other) ->
-    ks = []
-    for item in this.items()
-      do (item) ->
-        ks[ks.length] = item unless other.contains(item)
-    new Set(ks)
-    
-  union_arity: (other) ->
-    (this.union(other)).size()
+this.intersection_arity = (a,b)  ->
+  count = 0
+  h = new Object
+  h[item]=true for item in a
+  count++ for item in b when h[item]
+  count
 
-  intersection_arity: (other) ->
-    n = 0
-    for item in this.items()
-      do (item) ->
-        n++ if other.contains(item)
-    n
+this.union_arity = (a,b)  ->
+  count = a.length
+  h = new Object
+  h[item]=true for item in a
+  count++ for item in b when !h[item]
+  count
 
-  difference_arity: (other) ->
-    n = 0
-    for item in this.items()
-      do (item) ->
-        n++ unless other.contains(item)
-    n
+this.difference_arity = (a, b) ->
+  count = 0
+  h = new Object
+  h[item]=true for item in b
+  count++ for item in a when !h[item]
+  count
   
-  jaccardIndex: (other) -> this.intersection_arity(other) / this.union_arity(other)
+this.jaccardIndex = (a,b) ->
+  intersection_arity(a,b) / union_arity(a,b)
 
-  jaccardDistance: (other) -> 1 - this.jaccardIndex(other)
+this.jaccardDistance = (a,b) ->
+  1 - jaccardIndex(a,b)
+
+this.hammingDistance = (a,b) ->
+  difference_arity(a,b) + difference_arity(b,a)
+
+this.normalizedHammingDistance = (a,b,size)->
+  hammingDistance(a,b) / size
   
-  hammingDistance: (other) ->
-    this.union_arity(other) - this.intersection_arity(other)
-  
-  normalizedHammingDistance: (other,size=null) ->
-    if size == null
-      this.jaccardDistance(other)
-    else
-      (this.union_arity(other) - this.intersection_arity(other)) / size
-    
-    
-    
-    
-    

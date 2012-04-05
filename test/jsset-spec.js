@@ -2,155 +2,137 @@
 (function() {
 
   describe("Javacript Sets", function() {
-    it('handles the creation of a new, empty Set', function() {
-      return expect(typeof Set !== "undefined" && Set !== null).toBeTruthy();
-    });
-    it('handles adding an item to a Set', function() {
-      var s;
-      s = new Set();
-      s.add(1);
-      return expect(s.contains(1)).toBeTruthy();
-    });
-    it('allows querying the size of a Set', function() {
-      var s;
-      s = new Set();
-      expect(s.size()).toBe(0);
-      s.add(1);
-      return expect(s.size()).toBe(1);
-    });
-    it('allows adding an item twice, without changing its size', function() {
-      var s;
-      s = new Set();
-      expect(s.size()).toBe(0);
-      s.add(1);
-      expect(s.size()).toBe(1);
-      s.add(1);
-      s.add(1);
-      s.add(1);
-      s.add(1);
-      s.add(1);
-      return expect(s.size()).toBe(1);
-    });
-    it('allows deleting an item', function() {
-      var s;
-      s = new Set();
-      expect(s.size()).toBe(0);
-      s.add(1);
-      expect(s.size()).toBe(1);
-      s["delete"](1);
-      return expect(s.size()).toBe(0);
-    });
-    it('deleting an item not in the list is ok', function() {
-      var s;
-      s = new Set();
-      expect(s.size()).toBe(0);
-      s.add(1);
-      expect(s.size()).toBe(1);
-      s["delete"](1);
-      s["delete"](1);
-      s["delete"](1);
-      s["delete"](1);
-      return expect(s.size()).toBe(0);
-    });
-    it('allows the creation of a new set from an array', function() {
-      return expect(new Set([1, 2, 3, 4, 5]).size()).toBe(5);
-    });
-    it('allows the conversion to an array', function() {
-      var arr, i, l, s, _i, _len, _results;
-      l = ["a", "b", "c", "d"];
-      s = new Set(l);
-      arr = s.items();
-      _results = [];
-      for (_i = 0, _len = l.length; _i < _len; _i++) {
-        i = l[_i];
-        _results.push(expect(arr).toContain(i));
-      }
-      return _results;
-    });
-    it('allows the conversion to an array, even if numeric', function() {
-      var arr, i, l, s, _i, _len, _results;
-      l = [1, 2, 3, 4];
-      s = new Set(l);
-      arr = s.items();
-      _results = [];
-      for (_i = 0, _len = l.length; _i < _len; _i++) {
-        i = l[_i];
-        _results.push(expect(arr).toContain(i));
-      }
-      return _results;
-    });
     it('allows the creation of union of two sets', function() {
-      var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.union(s2).equals(new Set([1, 2, 3, 4, 5, 6, 7]))).toBeTruthy();
+      var expected, item, p, s1, s2, _i, _len, _results;
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      expected = [1, 2, 3, 4, 5, 6, 7];
+      p = union(s1, s2);
+      _results = [];
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        _results.push(expect(p).toContain(item));
+      }
+      return _results;
+    });
+    it('allows the creation of union of two sets, one of which is empty', function() {
+      var expected, item, p, s1, s2, _i, _len, _results;
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [];
+      expected = [1, 2, 3, 4, 5];
+      p = union(s1, s2);
+      _results = [];
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        _results.push(expect(p).toContain(item));
+      }
+      return _results;
+    });
+    it('allows the creation of union of two sets, both of which is empty', function() {
+      var p, s1, s2;
+      s1 = [];
+      s2 = [];
+      p = union(s1, s2);
+      return expect(p.length).toBe(0);
     });
     it('allows the creation of the intersection of two sets', function() {
-      var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.intersection(s2).equals(new Set([3, 4, 5]))).toBeTruthy();
+      var expected, item, p, s1, s2, unexpected, _i, _j, _len, _len1, _results;
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      expected = [3, 4, 5];
+      unexpected = [1, 2, 6, 7];
+      p = intersection(s1, s2);
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        expect(p).toContain(item);
+      }
+      _results = [];
+      for (_j = 0, _len1 = unexpected.length; _j < _len1; _j++) {
+        item = unexpected[_j];
+        _results.push(expect(p).toNotContain(item));
+      }
+      return _results;
     });
     it('allows the creation of the difference of two sets', function() {
-      var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.difference(s2).equals(new Set([1, 2]))).toBeTruthy();
+      var expected, item, p, s1, s2, unexpected, _i, _j, _len, _len1, _results;
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      expected = [1, 2];
+      unexpected = [3, 4, 5, 6, 7];
+      p = difference(s1, s2);
+      for (_i = 0, _len = expected.length; _i < _len; _i++) {
+        item = expected[_i];
+        expect(p).toContain(item);
+      }
+      _results = [];
+      for (_j = 0, _len1 = unexpected.length; _j < _len1; _j++) {
+        item = unexpected[_j];
+        _results.push(expect(p).toNotContain(item));
+      }
+      return _results;
     });
     it('returns the empty set if intesecting with an empty set', function() {
-      var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      expect(s1.intersection(new Set()).equals(new Set())).toBeTruthy();
-      return expect(s2.intersection(new Set()).equals(new Set())).toBeTruthy();
+      var expected, item, p, s1, s2, unexpected, _i, _len;
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [];
+      expected = [];
+      p = intersection(s1, s2);
+      unexpected = s1;
+      for (_i = 0, _len = unexpected.length; _i < _len; _i++) {
+        item = unexpected[_i];
+        expect(p).toNotContain(item);
+      }
+      return expect(p.length).toBe(0);
+    });
+    it('returns the empty set if both sets are empty', function() {
+      var expected, p, s1, s2;
+      s1 = [];
+      s2 = [];
+      expected = [];
+      p = intersection(s1, s2);
+      return expect(p.length).toBe(0);
     });
     it('returns a (cheaper) arity for union', function() {
       var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.union_arity(s2)).toBe(7);
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      return expect(union_arity(s1, s2)).toBe(7);
     });
     it('returns a (cheaper) arity for intersection', function() {
       var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.intersection_arity(s2)).toBe(3);
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      return expect(intersection_arity(s1, s2)).toBe(3);
     });
     it('returns a (cheaper) arity for difference', function() {
       var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.difference_arity(s2)).toBe(2);
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      return expect(difference_arity(s1, s2)).toBe(2);
     });
-    it('returns a jaccard similarity score', function() {
+    it('returns a jaccard index score', function() {
       var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.jaccardIndex(s2)).toBe(3 / 7);
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      return expect(jaccardIndex(s1, s2)).toBe(3 / 7);
     });
     it('returns a jaccard distance score', function() {
       var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.jaccardDistance(s2)).toBe(1 - (3 / 7));
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      return expect(jaccardDistance(s1, s2)).toBe(1 - (3 / 7));
     });
     it('returns a hamming distance', function() {
       var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.hammingDistance(s2)).toBe(4);
-    });
-    it('returns a normalized hamming distance (without a reference size)', function() {
-      var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.normalizedHammingDistance(s2)).toBe(1 - (3 / 7));
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      return expect(hammingDistance(s1, s2)).toBe(4);
     });
     return it('returns a normalized hamming distance (with a reference size)', function() {
       var s1, s2;
-      s1 = new Set([1, 2, 3, 4, 5]);
-      s2 = new Set([3, 4, 5, 6, 7]);
-      return expect(s1.normalizedHammingDistance(s2, 1000)).toBe(4 / 1000);
+      s1 = [1, 2, 3, 4, 5];
+      s2 = [3, 4, 5, 6, 7];
+      return expect(normalizedHammingDistance(s1, s2, 1000)).toBe(4 / 1000);
     });
   });
 
