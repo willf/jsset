@@ -1,4 +1,21 @@
+describe "Uniq", ->
+  it 'should uniqify a set', ->
+    s = [1,1,2,1,1,1,1,2]
+    p = uniq(s)
+    expect(p).toContain(item) for item in s
+    expect(p.length).toBe(2)
+    
+  it 'should uniqify an empty sett', ->
+    s = []
+    p = uniq(s)
+    expect(p.length).toBe(0)    
 
+  it 'should uniqify a set of strings', ->
+    s = ["a", "b", "b", "a"]
+    p = uniq(s)
+    expect(p).toContain(item) for item in s
+    expect(p.length).toBe(2)
+    
 describe "Javacript Sets", ->
   it 'allows the creation of union of two sets', ->
     s1 = [1,2,3,4,5]

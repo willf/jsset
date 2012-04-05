@@ -1,3 +1,12 @@
+this.uniq = (a) ->
+  r = []
+  h = new Object
+  for item in a
+    do(item) ->
+      r.push(item) if !h[item]
+      h[item]=true
+  r
+
 this.intersection = (a, b) ->
   r = []
   h = new Object
