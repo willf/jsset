@@ -20,3 +20,6 @@ jaccardIndex(a, b) - returns the Jaccard Index of a and b
 jaccardDistance(a, b) - returns the Jaccard Distance of a and b
 hammingDistance(a, b) - returns the Hamming Distance of a and b
 normalizedHammingDistance(a, b, size) - returns the Hamming Distance of a and b, normalized to some size
+
+compiled (non-minimized) file is in lib/js/jsset.js
+
