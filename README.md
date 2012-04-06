@@ -1,10 +1,13 @@
 JsSet: A small set package for Sets in Javascript
 
-This treats Javascript arrays as sets. For the array functions, it assumes that
-the arrays are already sets; that is, the values are unique. It also assumes that
-the items in the arrays have a reasonable == function (as if for hashing); e.g.,
-you cannot create sets of sets. The function uniq is provided to convert an array
-into such an array
+This treats Javascript arrays as sets. For the array functions, it assumes that the arrays are already sets; that is, the values are unique. The function uniq is provided to convert an array. into such an array. It also assumes that the items in the arrays have distinct string representations. In other words, consider such calls as:
+
+uniq([new Object, new Object]) -> [Object]
+
+or 
+
+uniq([1,"1"]) -> [1]
+uniq(["1",1]) -> ["1"]
 
 uniq(a) - returns a new array, removing duplicates from a
 intersection(a, b) - returns a new array, the intersection of a and b
