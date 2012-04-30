@@ -286,6 +286,18 @@
       s2 = ["3", "4", "5", "6", "7"];
       return expect(jaccardDistance(s1, s2)).toBe(1 - (3 / 7));
     });
+    it('returns a jaccard index score, when both are empty', function() {
+      var s1, s2;
+      s1 = [];
+      s2 = [];
+      return expect(jaccardIndex(s1, s2)).toBe(0);
+    });
+    it('returns a jaccard distance score, when both are empty', function() {
+      var s1, s2;
+      s1 = [];
+      s2 = [];
+      return expect(jaccardDistance(s1, s2)).toBe(1);
+    });
     it('returns a hamming distance', function() {
       var s1, s2;
       s1 = ["1", "2", "3", "4", "5"];

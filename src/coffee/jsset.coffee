@@ -51,7 +51,9 @@ this.difference_arity = (a, b) ->
   count
   
 this.jaccardIndex = (a,b) ->
-  intersection_arity(a,b) / union_arity(a,b)
+  u = union_arity(a,b)
+  return 0 if u==0
+  intersection_arity(a,b) / u
 
 this.jaccardDistance = (a,b) ->
   1 - jaccardIndex(a,b)

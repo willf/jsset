@@ -187,6 +187,16 @@ describe "Javacript Sets, using string keys", ->
     s2 = ["3","4","5","6","7"]
     expect(jaccardDistance(s1,s2)).toBe(1-(3/7))
 
+  it 'returns a jaccard index score, when both are empty', ->
+    s1 = []
+    s2 = []
+    expect(jaccardIndex(s1,s2)).toBe(0)
+
+  it 'returns a jaccard distance score, when both are empty', ->
+    s1 = []
+    s2 = []
+    expect(jaccardDistance(s1,s2)).toBe(1)
+
   it 'returns a hamming distance', ->
     s1 = ["1","2","3","4","5"]
     s2 = ["3","4","5","6","7"]
@@ -196,6 +206,7 @@ describe "Javacript Sets, using string keys", ->
     s1 = ["1","2","3","4","5"]
     s2 = ["3","4","5","6","7"]
     expect(normalizedHammingDistance(s1,s2,1000)).toBe(4/1000)
+    
 
 
 
